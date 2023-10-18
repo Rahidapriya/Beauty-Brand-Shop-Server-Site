@@ -30,6 +30,7 @@ async function run() {
     // Connect the client to the server	(optional starting in v4.7)
     await client.connect();
     const productCollection=client.db('productDB').collection('products')
+    const addCartCollection=client.db('productDB').collection('addtocart')
     const brandCollection=client.db('productDB').collection('brandcard')
 
     app.get('/brandcard',async(req,res)=>{
@@ -53,6 +54,21 @@ async function run() {
    res.send(result)
    
  })
+//  add to cart
+
+app.get('/addtocart',async(req,res)=>{
+  const cursor=addCartCollection.find();
+  const result = await cursor.toArray();
+  res.send(result);
+})
+app.post('/addtocart',async(req,res)=>{
+  const addtocart=req.body;
+  console.log(addtocart); 
+
+ const result=await addCartCollection.insertOne(addtocart);
+ res.send(result)
+ 
+})
 // get operation for update products
 app.get('/products/:id',async(req,res)=>{
   const id= req.params.id;
