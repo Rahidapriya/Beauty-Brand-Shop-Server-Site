@@ -45,7 +45,6 @@ async function run() {
       res.send(result);
   })
 
-
   app.post('/products',async(req,res)=>{
     const newProduct=req.body;
     console.log(newProduct); 
@@ -54,6 +53,35 @@ async function run() {
    res.send(result)
    
  })
+// get operation for update products
+app.get('/products/:id',async(req,res)=>{
+  const id= req.params.id;
+  const query ={_id: new ObjectId(id)}
+ 
+  const result = await productCollection.findOne(query);
+  res.send(result);
+})
+
+app.put('/products/:id',async(req,res)=>{
+  const id =req.params.id;
+  console.log(id);
+  const filter={_id:new ObjectId(id)}
+  const options={upsert:true};
+  const updatedproduct=req.body;
+  const product={
+    $set:{
+      name:updatedproduct.name,
+      photo:updatedproduct.photo,
+      upselectedOption:updatedproduct.upselectedOption,
+      price:updatedproduct.price,
+      rating:updatedproduct.rating,
+      desp:updatedproduct.desp,
+     
+    }
+  }
+  const result = await productCollection.updateOne(filter,product,options);
+  res.send(result)
+})
     // Send a ping to confirm a successful connection
     await client.db("admin").command({ ping: 1 });
     console.log("Pinged your deployment. You successfully connected to MongoDB!");
