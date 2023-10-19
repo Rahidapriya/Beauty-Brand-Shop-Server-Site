@@ -57,6 +57,7 @@ async function run() {
 //  add to cart
 
 app.get('/addtocart',async(req,res)=>{
+ 
   const cursor=addCartCollection.find();
   const result = await cursor.toArray();
   res.send(result);
@@ -78,7 +79,7 @@ app.delete('/addtocart/:id', async(req,res)=>{
   res.send(result);
 })
 //get bran name
-app.get('/products/:brand_name',async(req,res)=>{
+app.get('/productsbybrand/:brand_name',async(req,res)=>{
   const brand_name = req.params.brand_name;
   query={brand_name: brand_name }
     const result = await productCollection.find(query).toArray();
