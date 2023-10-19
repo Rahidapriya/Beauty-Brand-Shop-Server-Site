@@ -69,6 +69,21 @@ app.post('/addtocart',async(req,res)=>{
  res.send(result)
  
 })
+
+app.delete('/addtocart/:id', async(req,res)=>{
+  const id =req.params.id;
+  console.log(id);
+  const query={_id:new ObjectId(id)}
+  const result = await addCartCollection.deleteOne(query);
+  res.send(result);
+})
+//get bran name
+// app.get('/products/:brand_name',async(req,res)=>{
+//   const brand_name = req.params.brand_name;
+//   query={brand_name: brand_name }
+//     const result = await productCollection.find(query).toArray();
+//   res.send(result);
+// })
 // get operation for update products
 app.get('/products/:id',async(req,res)=>{
   const id= req.params.id;
@@ -89,6 +104,7 @@ app.put('/products/:id',async(req,res)=>{
       name:updatedproduct.name,
       photo:updatedproduct.photo,
       upselectedOption:updatedproduct.upselectedOption,
+      brand_name:updatedproduct.brandselectedOption,
       price:updatedproduct.price,
       rating:updatedproduct.rating,
       desp:updatedproduct.desp,
